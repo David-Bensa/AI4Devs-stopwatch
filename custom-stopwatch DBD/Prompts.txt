@@ -1,0 +1,81 @@
+Desarrolla una aplicación web personalizada basada en la herramienta Online Stopwatch  https://www.online-stopwatch.com/ con las siguientes especificaciones:
+Objetivo:
+Crear un cronómetro personalizado utilizando HTML, CSS (TailwindCSS) y JavaScript, que sea simple, elegante y fácil de usar.
+Características:
+1. Funciones:
+•  Cronómetro con inicio y reinicio.
+ • Futuras funciones adicionales.
+1. Diseño:
+•  Usar TailwindCSS, diseño responsivo.
+•  Color base: indianred.
+1. Interfaz:
+•  Intuitiva, elementos grandes, contenido centrado.
+2. Plataforma:
+•  HTML para la estructura.
+•  JavaScript para la funcionalidad.
+Pasos:
+1. HTML:
+•  Crear la estructura básica.
+2. CSS:
+•  Ajustar estilos con TailwindCSS.
+3. JavaScript:
+•  Implementar la funcionalidad del cronómetro.
+Pruebas:
+•  Verificar inicio, detención y reinicio.
+•  Probar responsividad y diseño.
+Ejemplo de Código:
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronómetro Personalizado</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+body { background-color: indianred; }
+</style>
+</head>
+<body class="flex items-center justify-center h-screen">
+<div class="text-center">
+<h1 class="text-4xl font-bold mb-4">Cronómetro</h1>
+<div id="display" class="text-6xl mb-4">00:00:00</div>
+<button id="startStopBtn" class="bg-white text-black px-4 py-2 rounded">Iniciar</button>
+<button id="resetBtn" class="bg-white text-black px-4 py-2 rounded ml-2">Reiniciar</button>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
+// script.js
+let timer;
+let isRunning = false;
+let startTime;
+let elapsedTime = 0;
+const display = document.getElementById('display');
+const startStopBtn = document.getElementById('startStopBtn');
+const resetBtn = document.getElementById('resetBtn');
+startStopBtn.addEventListener('click', () => {
+if (isRunning) {
+clearInterval(timer);
+startStopBtn.textContent = 'Iniciar';
+} else {
+startTime = Date.now() - elapsedTime;
+timer = setInterval(updateTime, 1000);
+startStopBtn.textContent = 'Detener';
+}
+isRunning = !isRunning;
+});
+resetBtn.addEventListener('click', () => {
+clearInterval(timer);
+isRunning = false;
+elapsedTime = 0;
+display.textContent = '00:00:00';
+startStopBtn.textContent = 'Iniciar';
+});
+function updateTime() {
+elapsedTime = Date.now() - startTime;
+const totalSeconds = Math.floor(elapsedTime / 1000);
+const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+const seconds = String(totalSeconds % 60).padStart(2, '0');
+display.textContent = ${hours}:${minutes}:${seconds};
+}
